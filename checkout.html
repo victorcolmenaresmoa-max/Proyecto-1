@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Finalizar Compra</title>
+    <style>
+        /* Diseño minimalista y conservador */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .checkout-container { width: 100%; max-width: 400px; padding: 40px; border: 1px solid #eaeaea; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        h2 { margin-top: 0; font-weight: 400; text-align: center; }
+        .resumen { background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 14px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background-color: #222; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #444; }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <h2>Confirmar Pedido</h2>
+        <div class="resumen">
+            <strong>Producto:</strong> <span id="displayProducto">Cargando...</span><br>
+            <strong>Total a pagar:</strong> US$ <span id="displayPrecio">0.00</span>
+        </div>
+
+        <form id="checkoutForm">
+            <input type="hidden" id="producto" required>
+            
+            <input type="text" id="nombre" placeholder="Nombre completo" required>
+            <input type="text" id="direccion" placeholder="Dirección de entrega" required>
+            <input type="tel" id="telefono" placeholder="Teléfono" required>
+            <input type="number" id="cantidad" placeholder="Cantidad" value="1" min="1" required>
+            
+            <button type="submit" id="submitBtn">Confirmar y Comprar</button>
+        </form>
+    </div>
+
+    <script type="module" src="./js/checkout.js"></script>
+</body>
+</html>

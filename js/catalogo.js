@@ -57,8 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <h3>${prod.Nombre}</h3>
                     <p class="price">US$ ${prod.Precio}</p>
                     <p style="color: green; font-size: 12px;">Envío gratis</p>
-                    <a href="checkout.html?producto=${encodeURIComponent(prod.Nombre)}&precio=${prod.Precio}" class="btn-comprar">Comprar ahora</a>
-                </div>
+                    <a href="checkout.html?producto=${encodeURIComponent(prod.Nombre)}&precio=${prod.Precio}&imagen=${encodeURIComponent(prod.Imagen)}&desc=${encodeURIComponent(prod.Descripcion || '')}" class="btn-comprar">Comprar ahora</a>                </div>
             `;
             contenedor.appendChild(card);
         });

@@ -2,37 +2,109 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Finalizar Compra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra | Pago Seguro</title>
     <style>
-        /* Diseño minimalista y conservador */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .checkout-container { width: 100%; max-width: 400px; padding: 40px; border: 1px solid #eaeaea; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        h2 { margin-top: 0; font-weight: 400; text-align: center; }
-        .resumen { background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 14px; }
-        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; background-color: #222; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background 0.3s; }
-        button:hover { background-color: #444; }
+        :root {
+            --primary: #3483fa;
+            --bg-color: #ebebeb;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --white: #ffffff;
+        }
+
+        body { font-family: 'Proxima Nova', -apple-system, sans-serif; background-color: var(--bg-color); margin: 0; padding: 0; color: var(--text-dark); }
+        .navbar { background-color: #fff159; padding: 15px 5%; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        .navbar-brand { font-size: 24px; font-weight: 900; color: #2d3277; text-decoration: none; }
+        
+        /* Contenedor principal a dos columnas */
+        .checkout-wrapper { max-width: 1000px; margin: 40px auto; display: flex; gap: 30px; padding: 0 20px; align-items: flex-start; }
+        
+        .card-container { background: var(--white); border-radius: 8px; padding: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        
+        /* Columna Izquierda: Formulario */
+        .form-section { flex: 2; }
+        .form-section h2 { margin-top: 0; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; color: #1a1a1a; font-size: 22px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #4a4a4a; font-size: 14px; }
+        .input-group input { width: 100%; padding: 12px 15px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; background-color: #f9f9f9; transition: border 0.3s; }
+        .input-group input:focus { outline: none; border-color: var(--primary); background-color: #fff; }
+        
+        .btn-submit { width: 100%; padding: 15px; background-color: var(--primary); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .btn-submit:hover { background-color: #2968c8; }
+        .btn-submit:disabled { background-color: #999; cursor: not-allowed; }
+
+        /* Columna Derecha: Resumen del Producto */
+        .summary-section { flex: 1; background: #f8f9fa; border: 1px solid #e2e8f0; }
+        .summary-section h2 { margin-top: 0; font-size: 18px; color: #333; margin-bottom: 20px; }
+        .product-preview { text-align: center; margin-bottom: 20px; }
+        .product-preview img { width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px; background: white; padding: 10px; box-sizing: border-box; border: 1px solid #eee; }
+        .product-details h3 { margin: 10px 0; font-size: 16px; font-weight: 600; }
+        .product-desc { font-size: 13px; color: var(--text-light); line-height: 1.5; margin-bottom: 20px; background: white; padding: 15px; border-radius: 6px; border: 1px solid #eee;}
+        
+        .total-box { border-top: 2px dashed #ccc; padding-top: 20px; margin-top: 20px; }
+        .total-row { display: flex; justify-content: space-between; font-size: 22px; font-weight: 700; color: #1a1a1a; }
+        
+        /* Responsive para celulares */
+        @media (max-width: 768px) {
+            .checkout-wrapper { flex-direction: column-reverse; }
+            .form-section, .summary-section { width: 100%; box-sizing: border-box; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="checkout-container">
-        <h2>Confirmar Pedido</h2>
-        <div class="resumen">
-            <strong>Producto:</strong> <span id="displayProducto">Cargando...</span><br>
-            <strong>Total a pagar:</strong> US$ <span id="displayPrecio">0.00</span>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">🛒 MiTienda</a>
+    </nav>
+
+    <div class="checkout-wrapper">
+        <div class="card-container form-section">
+            <h2>Detalles del Envío</h2>
+            <form id="checkoutForm">
+                <input type="hidden" id="producto" required>
+                
+                <div class="input-group">
+                    <label>Nombre y Apellido</label>
+                    <input type="text" id="nombre" placeholder="Ej: Carlos Pérez" required>
+                </div>
+                <div class="input-group">
+                    <label>Dirección exacta de entrega</label>
+                    <input type="text" id="direccion" placeholder="Calle, Casa/Apto, Ciudad..." required>
+                </div>
+                <div class="input-group">
+                    <label>Teléfono de contacto</label>
+                    <input type="tel" id="telefono" placeholder="Ej: 0414-1234567" required>
+                </div>
+                <div class="input-group">
+                    <label>¿Cuántas unidades deseas?</label>
+                    <input type="number" id="cantidad" value="1" min="1" required>
+                </div>
+                
+                <button type="submit" id="submitBtn">Confirmar y Pagar</button>
+            </form>
         </div>
 
-        <form id="checkoutForm">
-            <input type="hidden" id="producto" required>
+        <div class="card-container summary-section">
+            <h2>Resumen de tu compra</h2>
             
-            <input type="text" id="nombre" placeholder="Nombre completo" required>
-            <input type="text" id="direccion" placeholder="Dirección de entrega" required>
-            <input type="tel" id="telefono" placeholder="Teléfono" required>
-            <input type="number" id="cantidad" placeholder="Cantidad" value="1" min="1" required>
+            <div class="product-preview">
+                <img id="summaryImagen" src="https://via.placeholder.com/200?text=Cargando..." alt="Producto">
+            </div>
             
-            <button type="submit" id="submitBtn">Confirmar y Comprar</button>
-        </form>
+            <div class="product-details">
+                <h3 id="displayProducto">Cargando producto...</h3>
+                <div class="product-desc" id="displayDesc">Cargando descripción...</div>
+            </div>
+
+            <div class="total-box">
+                <div class="total-row">
+                    <span>Total a pagar:</span>
+                    <span>US$ <span id="displayPrecio">0.00</span></span>
+                </div>
+                <p style="color: #00a650; font-size: 14px; font-weight: bold; margin-top: 10px; text-align: right;">Envío Gratis ⚡</p>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="./js/checkout.js"></script>

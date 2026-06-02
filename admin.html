@@ -2,47 +2,251 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard de Pedidos</title>
+    <title>Admin Dashboard | Gestión de Pedidos</title>
+    <style>
+        /* ==========================================
+           1. ESTILOS GLOBALES Y TIPOGRAFÍA
+           ========================================== */
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f1f5f9; /* Fondo gris muy suave y moderno */
+            color: #334155;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ==========================================
+           2. PANTALLA DE LOGIN
+           ========================================== */
+        #loginSection {
+            max-width: 380px;
+            margin: 12vh auto;
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        #loginSection h2 {
+            margin-top: 0;
+            color: #0f172a;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        /* ==========================================
+           3. ESTRUCTURA DEL DASHBOARD
+           ========================================== */
+        #dashboardSection {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h2 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Tarjetas (Cards) para contener las secciones */
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #1e293b;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 15px;
+            font-size: 18px;
+        }
+
+        /* ==========================================
+           4. FORMULARIOS E INPUTS
+           ========================================== */
+        input[type="password"],
+        input[type="text"],
+        input[type="number"],
+        input[type="url"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: #f8fafc;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1; /* Color primario al enfocar */
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Rejilla para poner los inputs uno al lado del otro en pantallas grandes */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        /* ==========================================
+           5. BOTONES
+           ========================================== */
+        button {
+            background-color: #6366f1; /* Indigo moderno */
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover { background-color: #4f46e5; }
+        button:active { transform: scale(0.97); }
+
+        #logoutBtn { background-color: #ef4444; } /* Rojo para salir */
+        #logoutBtn:hover { background-color: #dc2626; }
+
+        #refreshBtn { background-color: #10b981; } /* Verde para actualizar */
+        #refreshBtn:hover { background-color: #059669; }
+
+        #loginBtn { width: 100%; padding: 14px; font-size: 16px; margin-top: 10px; }
+        
+        #stockForm button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            font-size: 15px;
+        }
+
+        /* ==========================================
+           6. TABLA DE PEDIDOS
+           ========================================== */
+        .table-container {
+            overflow-x: auto; /* Permite scroll horizontal si la pantalla es pequeña */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 16px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc; /* Efecto al pasar el mouse por la fila */
+        }
+
+        td {
+            font-size: 14px;
+            color: #334155;
+        }
+
+        /* Error del login */
+        #loginError {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
+
     <div id="loginSection">
-        <h2>Acceso Administrativo</h2>
-        <input type="password" id="adminPassword" placeholder="Contraseña">
-        <button id="loginBtn">Ingresar</button>
-        <p id="loginError" style="color: red; display: none;">Contraseña incorrecta</p>
+        <h2>🔒 Acceso Seguro</h2>
+        <input type="password" id="adminPassword" placeholder="Ingresa tu contraseña">
+        <button id="loginBtn">Entrar al Sistema</button>
+        <p id="loginError" style="color: #ef4444; display: none;">Contraseña incorrecta. Intenta de nuevo.</p>
     </div>
 
     <div id="dashboardSection" style="display: none;">
-        <h2>Gestión de Pedidos</h2>
-        <button id="logoutBtn">Cerrar Sesión</button>
-        <button id="refreshBtn">Actualizar Datos</button>
         
-        <table border="1" style="margin-top: 20px; width: 100%; text-align: left;">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Teléfono</th>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody id="ordersTableBody">
-                </tbody>
-        </table>
-</table>
-
-        <hr style="margin-top: 40px;">
-        <h3>Añadir Nuevo Producto al Inventario</h3>
-        <form id="stockForm" style="margin-top: 20px;">
-            <input type="text" id="prodNombre" placeholder="Nombre de la Laptop (Ej: Dell 5400)" required><br><br>
-            <input type="number" id="prodPrecio" placeholder="Precio (Ej: 480)" required><br><br>
-            <input type="url" id="prodImagen" placeholder="URL de la Imagen" required><br><br>
-            <input type="number" id="prodStock" placeholder="Cantidad en Stock" required><br><br>
-            <button type="submit">Guardar Producto</button>
-        </form>
+        <div class="dashboard-header">
+            <h2>Panel de Administración</h2>
+            <div class="header-actions">
+                <button id="refreshBtn">↻ Actualizar Datos</button>
+                <button id="logoutBtn">Cerrar Sesión</button>
+            </div>
         </div>
+        
+        <div class="card">
+            <h3>📦 Órdenes Recientes</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>➕ Añadir Nuevo Producto al Catálogo</h3>
+            <form id="stockForm">
+                <div class="form-grid">
+                    <input type="text" id="prodNombre" placeholder="Nombre de la Laptop (Ej: Dell 5400)" required>
+                    <input type="number" id="prodPrecio" placeholder="Precio US$ (Ej: 480)" required>
+                    <input type="url" id="prodImagen" placeholder="URL de la Imagen" required>
+                    <input type="number" id="prodStock" placeholder="Cantidad en Stock" required>
+                </div>
+                <button type="submit">💾 Guardar Producto en Inventario</button>
+            </form>
+        </div>
+
+    </div>
 
     <script type="module" src="./js/auth.js"></script>
     <script type="module" src="./js/admin.js"></script>

@@ -77,7 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 Nombre: document.getElementById('prodNombre').value,
                 Precio: document.getElementById('prodPrecio').value,
                 Imagen: document.getElementById('prodImagen').value,
-                Stock: document.getElementById('prodStock').value
+                Stock: document.getElementById('prodStock').value,
+                Descripcion: document.getElementById('prodDescripcion').value // <- ESTA LÍNEA ES NUEVA
             };
 
             try {

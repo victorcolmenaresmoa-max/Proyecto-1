@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard de Pedidos</title>
+</head>
+<body>
+    <div id="loginSection">
+        <h2>Acceso Administrativo</h2>
+        <input type="password" id="adminPassword" placeholder="Contraseña">
+        <button id="loginBtn">Ingresar</button>
+        <p id="loginError" style="color: red; display: none;">Contraseña incorrecta</p>
+    </div>
+
+    <div id="dashboardSection" style="display: none;">
+        <h2>Gestión de Pedidos</h2>
+        <button id="logoutBtn">Cerrar Sesión</button>
+        <button id="refreshBtn">Actualizar Datos</button>
+        
+        <table border="1" style="margin-top: 20px; width: 100%; text-align: left;">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+                </tbody>
+        </table>
+    </div>
+
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/admin.js"></script>
+</body>
+</html>
